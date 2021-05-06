@@ -14,7 +14,6 @@ Nice=-20
 IOSchedulingClass=realtime
 IOSchedulingPriority=0
 
-#ExecStart=/usr/bin/perl /home/ubuntu/jamuluscentral.pl
 ExecStart=/usr/bin/perl /usr/local/bin/jamuluscentral.pl
 
 Restart=yes
