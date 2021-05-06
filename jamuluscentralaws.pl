@@ -1,20 +1,18 @@
 #!/usr/bin/perl
 use strict;
 
-#system ("killall Jamulus");     # for testing only
-
-# ************************** change values to match your event***************** 
+# ************************** Change values to match your event ***************** 
 my $port = 22125;     #port for first server
-# my $path = "/usr/bin/jamulus";
-my $path = "/usr/local/bin/Jamulus";
+my $path = "/usr/bin/jamulus";
 my $location = "Montreal";
 my $locale = "1+";
-my $centralserverip = "192.168.1.224"; #"3.97.132.10";   #public ip
+my $centralserverip = "3.97.xxx.xx";   #your public ip
 my $centralname = "Up The Creek"; 
-my $log =  "central.log";  #"/var/log/jamulus/central.log";
-my $msg = "<p>This server is part of the Black Creek Old Time Music Festival</p> <p>Memorial day since time immemorial<\p>";
-my @jams = qw[C-Tunes D-Tunes G-Tunes A-Tunes];
+my $log =  "/var/log/jamulus/central.log";
+my $msg = "<p>This server is part of the xxx Music Festival</p> <p>More text<\p>";
+my @jams = qw[Jam1 Jam2 Jam3];
 # ************************** end setup ***************************
+
 
 # *********************** Central server****************************
 
