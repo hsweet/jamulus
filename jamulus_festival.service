@@ -16,7 +16,8 @@ IOSchedulingPriority=0
 
 ExecStart=/usr/bin/perl /usr/local/bin/jamuluscentral.pl
 
-Restart=yes
+Restart=on-failure
+RestartSec=30
 StandardOutput=journal
 StandardError=inherit
 SyslogIdentifier=jamulus
