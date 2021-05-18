@@ -2,35 +2,43 @@ import requests
 import json
 import subprocess
 import sys
+import time
 
-# gets result as a string
-ip = subprocess.run("grep connected central.log | cut -d \",\" -f2 | sort | uniq", shell = True, capture_output=True, text=True)
-#print(ip.stdout)
-
-for letter in ip.stdout:
-    pass
-    #print(letter)
+# print either city/state or lat/long for map
+# start with locate.py l for numbers, nothing or anything else for names
+output_style = sys.argv[1:] or ['c']
+#print (output_style[0])
+# pull ip addresses from log .. make sure to have correct log file path
+ip = subprocess.run("grep connected central.log | cut -d \",\" -f2 | sort | uniq > visitors.txt", shell = True )
 ################################
-
-# https://www.abstractapi.com/guides/how-to-geolocate-an-ip-address-in-python
-# so for now lets just read a file List
 with open("visitors.txt","r") as visitors:
     ips=visitors.readlines()
-    #print (ips)
+
 for ip_address in ips:
     clean_ip=ip_address.replace("\n","")
-    #ip.replace("\n","")
-    #print (clean_ip)
-    print("-------------------------")
-    clean_ip=ip_address.replace("\n","")
-    request_url = 'https://geolocation-db.com/jsonp/' + clean_ip
-    #print(request_url)
+    request_url = 'https://geolocation-db.com/jsonp/' + clean_ip.lstrip()
     # Send request and decode the result
     response = requests.get(request_url)
     result = response.content.decode()
     # Clean the returned string so it just contains the dictionary data for the IP address
     result = result.split("(")[1].strip(")")
-    print(result)
     # Convert this data into a dictionary
     result  = json.loads(result)
-    print(result)
+    # output the items we want for the map
+    if output_style[0] == "l":
+        print ("{},{}".format(result["latitude"],result["longitude"]) )
+    else:
+        print ("{},{}".format(result["city"],result["state"]) )
+    time.sleep(.5)
+
+'''
+# https://www.abstractapi.com/guides/how-to-geolocate-an-ip-address-in-python
+# gets result as a string
+ip = subprocess.run("grep connected central.log | cut -d \",\" -f2 | sort | uniq", shell = True, capture_output=True, text=True)
+
+Redirect the output of this script to a .cvs file which can be imported into maps
+
+Getting data into google maps
+menu/Your Places/Maps
+create map on bottom
+'''
