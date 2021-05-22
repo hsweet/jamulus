@@ -6,10 +6,11 @@ import time
 
 # print either city/state or lat/long for map
 # start with locate.py l for numbers, nothing or anything else for names
+
 output_style = sys.argv[1:] or ['c']
-#print (output_style[0])
+
 # pull ip addresses from log .. make sure to have correct log file path
-ip = subprocess.run("grep connected central.log | cut -d \",\" -f2 | sort | uniq > visitors.txt", shell = True )
+ip = subprocess.run("grep connected bc.log | cut -d \",\" -f2 | sort | uniq > visitors.txt", shell = True )
 ################################
 with open("visitors.txt","r") as visitors:
     ips=visitors.readlines()
