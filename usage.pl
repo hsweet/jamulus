@@ -4,7 +4,7 @@ use feature ':5.10';
 
 # change to logfile on your system
 # or start from command line .. usersperday.pl logfilename
-my $logfile = $ARGV[0] || "aaron.log";
+my $logfile = $ARGV[0] || "jamulus.log";
 my $title = uc $logfile;
 #***************************************************************
 my @connections = `grep connected  $logfile  | sed 's/,/ /g' | cut -d \" \" -f1`;
@@ -16,36 +16,34 @@ chomp $users;
 chomp $days;
 my $avg = $users/$days;
 
-say "-" x 60;
+say "-" x 40;
 say " -- $title -- Jamulus Usage -- ";
 chomp $connections[0];
 chomp $connections[-1];
 say " -- $connections[0] -- $connections[-1] --";
-say "-" x 60;
+say "-" x 40;
 print "\n";
 # ************************** Daily Usage *****************************
 #    hash to acculmulate number of not necessarily unique connections per day
 my %dates;
 say "Date        Visitors";
 foreach (@connections){
-	while (/(\w[\w-]*)/g ){
-		$dates{$1}++;
- 		}
+		chomp;
+		$dates{$_}++;
 }
 
-foreach my $day( sort keys %dates){
+foreach my $day(sort keys %dates){
 	say "$day  $dates{$day}";
 	}
 # **************************  Hourly Usage *****************
 print "\n";
-say "-" x 60;
+say "-" x 20;
 print "\n";
 say "Hour     Visitors";
 my %hourly;
 foreach (@hours){
-  while (/(\w{2})/g ){
-		$hourly{$1}++;
-		}
+	chomp;
+	$hourly{$_}++;
 }
 
 foreach my $hour( sort keys %hourly){
@@ -55,9 +53,9 @@ foreach my $hour( sort keys %hourly){
 
 # ************************** Totals **********
 print "\n";
-say "-" x 60;
+say "-" x 42;
 say "You have had $users unique visitors in $days days";
 print "An average of ";
 printf("%.1f", $avg);
 say " visitors per day";
-say "-" x 60;
+say "-" x 42;
