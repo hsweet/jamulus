@@ -7,15 +7,17 @@ import time
 # print either city/state or lat/long for map
 # start with locate.py l for numbers, nothing or anything else for names
 
+output_list = []
 output_style = sys.argv[1:] or ['c']
 
 # pull ip addresses from log .. make sure to have correct log file path
-ip = subprocess.run("grep connected bc.log | cut -d \",\" -f2 | sort | uniq > visitors.txt", shell = True )
+ip = subprocess.run("grep connected /var/log/klezmer.log | cut -d \",\" -f2 | sort | uniq > ip.txt", shell = True )
 ################################
-with open("visitors.txt","r") as visitors:
+with open("ip.txt","r") as visitors:
     ips=visitors.readlines()
 
 for ip_address in ips:
+    #print (".", end=" ")
     clean_ip=ip_address.replace("\n","")
     request_url = 'https://geolocation-db.com/jsonp/' + clean_ip.lstrip()
     # Send request and decode the result
@@ -29,8 +31,15 @@ for ip_address in ips:
     if output_style[0] == "l":
         print ("{},{}".format(result["latitude"],result["longitude"]) )
     else:
-        print ("{},{}".format(result["city"],result["state"]) )
+        res = ("{},{}".format(result["city"],result["state"]) )
+        output_list.append (res)
+        
     time.sleep(.5)
+    
+if output_style[0] == "c":    
+	output_list.sort()
+	for place in output_list:
+		print (place)
 
 '''
 # https://www.abstractapi.com/guides/how-to-geolocate-an-ip-address-in-python
